@@ -28,6 +28,7 @@
     "webpack-dev-server": "^2.0.0"
   },
   "dependencies": {
+    "npm": "^6.1.0",
     "react": "^15.5.0",
     "react-dom": "^15.5.0"
   }
