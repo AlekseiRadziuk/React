@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import CommentsList from './CommentList'
+import CollapsibleCommentsList from './CollapsibleCommentsList'
 
 export default class Article extends Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            isOpen: false
-        };
-    }
+    state = {
+        isOpen: false
+    };
 
     render() {
         const { article } = this.props;
@@ -23,32 +20,18 @@ export default class Article extends Component {
     }
 
     getBody() {
-
-        if (!this.state.isOpen) return null;
+        if (!this.state.isOpen) {
+            return null;
+        }
         const { article } = this.props;
-        var comments = this.getComments();
-        console.log(comments);
+        const { comments } = article;
         return this.state.isOpen ?
             <section>
                 <div>
                     {article.text}
-                    {comments}
+                    <CollapsibleCommentsList comments={comments} />
                 </div>
             </section> : null;
-    }
-
-    getComments() {
-        const { article } = this.props;
-        const { comments } = article;
-        if (comments != undefined && comments.length > 0) {
-            return <div>
-                <br/>
-                Comments:
-                <CommentsList comments={comments} />
-            </div>;
-        }
-        return null;
-
     }
 
     toggleOpen = () => {
