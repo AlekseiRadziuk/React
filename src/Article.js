@@ -6,7 +6,8 @@ export default class Article extends Component {
         super(props);
 
         this.state = {
-            isOpen: false
+            isOpen: false,
+            isCommentsShown: false
         };
     }
 
@@ -23,26 +24,36 @@ export default class Article extends Component {
     }
 
     getBody() {
-
         if (!this.state.isOpen) return null;
         const { article } = this.props;
-        var comments = this.getComments();
-        console.log(comments);
+        const { comments } = article;
+        var commentsList = this.getComments();
+        console.log(commentsList);
         return this.state.isOpen ?
             <section>
                 <div>
                     {article.text}
-                    {comments}
+                    <br />
+                    {
+                        comments == undefined ? null :
+                            <button onClick={this.showComments}>
+                                {this.state.isCommentsShown ? 'close comments' : 'show comments'}
+                            </button>
+                    }
+                    {commentsList}
                 </div>
             </section> : null;
     }
 
     getComments() {
+        if (!this.state.isCommentsShown) {
+            return null;
+        }
         const { article } = this.props;
         const { comments } = article;
         if (comments != undefined && comments.length > 0) {
             return <div>
-                <br/>
+                <br />
                 Comments:
                 <CommentsList comments={comments} />
             </div>;
@@ -55,5 +66,11 @@ export default class Article extends Component {
         this.setState({
             isOpen: !this.state.isOpen
         });
+    }
+
+    showComments = () => {
+        this.setState({
+            isCommentsShown: !this.state.isCommentsShown
+        })
     }
 }
